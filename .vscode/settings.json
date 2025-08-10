@@ -1,0 +1,10 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "js": false
+  },
+  "search.exclude": {
+    "js": true
+  }
+}

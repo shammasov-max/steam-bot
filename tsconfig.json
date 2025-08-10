@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "target": "es2022",
+      "module": "Node16",
+      "outDir": "./dist",
+      "rootDir": "./src",
+      "strict": true,
+      "noImplicitAny": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "allowJs": true,
+      "exactOptionalPropertyTypes": true ,
+      "moduleResolution": "node16",
+      "allowSyntheticDefaultImports": true,
+      "forceConsistentCasingInFileNames": true,
+      "typeRoots": ["types", "node_modules/@types"],
+      "plugins": [
+        // ... other LSPs (if any) and as last
+        {
+          "name": "@effect/language-service"
+        }
+      ]
+    },
+    "include": ["src/**/*","types/**/*"]
+  }

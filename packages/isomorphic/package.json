@@ -1,0 +1,36 @@
+{
+  "name": "@steam-bot/isomorphic",
+  "version": "0.1.0",
+  "description": "Isomorphic package for Steam Multichat with AI Agents",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "effect": "^3.10.0",
+    "fp-ts": "^2.16.1",
+    "ramda": "^0.29.1",
+    "typeid-js": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/ramda": "^0.29.9",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "redux": "^5.0.0"
+  }
+}
