@@ -4,8 +4,7 @@
     "declaration": true,
     "rootDir": "./src",
     "outDir": "./dist",
-    "typeRoots": ["./types", "../../node_modules/@types"],
-    "plugins": [
+     "plugins": [
       { "name": "@effect/language-service" }
     ]
   },
