@@ -556,6 +556,90 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@steam-bot/frontend@workspace:packages/frontend":
+  version: 0.0.0-use.local
+  resolution: "@steam-bot/frontend@workspace:packages/frontend"
+  dependencies:
+    "@steam-bot/isomorphic": "workspace:^"
+  languageName: unknown
+  linkType: soft
+
+"@steam-bot/isomorphic@workspace:^, @steam-bot/isomorphic@workspace:packages/isomorphic":
+  version: 0.0.0-use.local
+  resolution: "@steam-bot/isomorphic@workspace:packages/isomorphic"
+  dependencies:
+    "@types/node": "npm:^20.11.0"
+    "@types/ramda": "npm:^0.29.9"
+    effect: "npm:^3.10.0"
+    fp-ts: "npm:^2.16.1"
+    ramda: "npm:^0.29.1"
+    rimraf: "npm:^5.0.5"
+    typeid-js: "npm:^1.0.0"
+    typescript: "npm:^5.3.3"
+  peerDependencies:
+    redux: ^5.0.0
+  languageName: unknown
+  linkType: soft
+
+"@steam-bot/server@workspace:packages/server":
+  version: 0.0.0-use.local
+  resolution: "@steam-bot/server@workspace:packages/server"
+  dependencies:
+    "@babel/generator": "npm:^7.28.0"
+    "@babel/parser": "npm:^7.28.0"
+    "@babel/traverse": "npm:^7.28.0"
+    "@babel/types": "npm:^7.28.2"
+    "@effect/cli": "npm:^0.69.0"
+    "@effect/core": "npm:^0.0.16"
+    "@effect/experimental": "npm:^0.54.3"
+    "@effect/language-service": "npm:^0.34.0"
+    "@effect/opentelemetry": "npm:^0.56.1"
+    "@effect/platform": "npm:^0.90.0"
+    "@effect/schema": "npm:^0.75.5"
+    "@effect/typeclass": "npm:^0.36.0"
+    "@electron/remote": "npm:^2.1.3"
+    "@steam-bot/isomorphic": "workspace:^"
+    "@total-typescript/ts-reset": "npm:^0.6.1"
+    "@types/babel__generator": "npm:^7"
+    "@types/babel__traverse": "npm:^7"
+    "@types/node": "npm:^24.2.0"
+    "@types/request": "npm:^2.48.13"
+    "@types/steam-totp": "npm:^2.1.2"
+    "@types/steam-user": "npm:^5.1.0"
+    "@types/steamcommunity": "npm:^3.43.8"
+    "@types/steamid": "npm:^2.0.3"
+    cheerio: "npm:^1.1.2"
+    effect: "npm:^3.17.6"
+    electron: "npm:^37.2.6"
+    electron-find: "npm:^1.0.7"
+    electron-log: "npm:^5.4.2"
+    electron-updater: "npm:6.6.2"
+    fastq: "npm:^1.19.1"
+    file-manager: "npm:^2.0.1"
+    filequeue: "npm:^0.5.0"
+    generate-password: "npm:^1.7.1"
+    machine-uuid: "npm:^1.2.0"
+    magic-regexp: "npm:^0.10.0"
+    openai: "npm:^5.12.0"
+    request: "npm:^2.88.2"
+    showify: "npm:^0.2.1"
+    steam-client: "npm:^2.5.8"
+    steam-session: "npm:^1.9.4"
+    steam-totp: "npm:^2.1.2"
+    steam-user: "npm:^5.2.3"
+    steamcommunity: "npm:^3.49.0"
+    steamid: "npm:^2.1.0"
+    string-ts: "npm:^2.2.1"
+    ts-node: "npm:^10.9.2"
+    ts-regexp: "npm:^0.1.1"
+    typed-regex: "npm:^0.0.8"
+    typed-regexp: "npm:^1.0.4"
+    typeid-js: "npm:^1.2.0"
+    typescript: "npm:^5.9.2"
+    zefyr: "npm:^0.0.1-alpha.21"
+  languageName: unknown
+  linkType: soft
+
 "@szmarczak/http-timer@npm:^4.0.5":
   version: 4.0.6
   resolution: "@szmarczak/http-timer@npm:4.0.6"
@@ -709,12 +793,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^20.11.0":
+  version: 20.19.10
+  resolution: "@types/node@npm:20.19.10"
+  dependencies:
+    undici-types: "npm:~6.21.0"
+  checksum: 10c0/dac81561f6d7cbd37c876c4023846095a71d8b62df52c8b6b32de67f6ca6aaf2ffd0c1e02ede6d2c8af41e934ce2005f67b8b6348b79dd355c05f3192aa7b59a
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^22.7.7":
   version: 22.17.0
   resolution: "@types/node@npm:22.17.0"
   dependencies:
     undici-types: "npm:~6.21.0"
   checksum: 10c0/e1c603b660d3de3243dfc02ded5d40623ff3f36315ffbdd8cdc81bc2c5a8da172035879d437b72e9fa61ca01827f28e9c2b0c32898f411a8e9ba0a5efac0b4ca
+  languageName: node
+  linkType: hard
+
+"@types/ramda@npm:^0.29.9":
+  version: 0.29.12
+  resolution: "@types/ramda@npm:0.29.12"
+  dependencies:
+    types-ramda: "npm:^0.29.10"
+  checksum: 10c0/38746faf9f5b633382c09fa19be146f37628b05964ac02b40cd458f8e3a62794e23efe48a20956ad83848a6cdb848229ee45452629cbf96659ee8536b2f01b9f
   languageName: node
   linkType: hard
 
@@ -1524,6 +1626,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"effect@npm:^3.10.0":
+  version: 3.17.7
+  resolution: "effect@npm:3.17.7"
+  dependencies:
+    "@standard-schema/spec": "npm:^1.0.0"
+    fast-check: "npm:^3.23.1"
+  checksum: 10c0/f701dcd8b1b1bba3bf8cf2831bd30a3ee2a9a6e0c190154f3800a457ab9f329ec66903f458a378a4da919445a9f7bc675ee4474a19c4d527aa058798985a66d7
+  languageName: node
+  linkType: hard
+
 "effect@npm:^3.17.6":
   version: 3.17.6
   resolution: "effect@npm:3.17.6"
@@ -1868,6 +1980,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fp-ts@npm:^2.16.1":
+  version: 2.16.10
+  resolution: "fp-ts@npm:2.16.10"
+  checksum: 10c0/20f75db2cecf332d7555efa6fc2774e5c2e8bde281c55e7818bfea8381c7397f7b2f0742da22593ea63d302b9be22db0670d9a37a77122c6625b954e84fd8148
+  languageName: node
+  linkType: hard
+
 "fs-extra@npm:^10.1.0":
   version: 10.1.0
   resolution: "fs-extra@npm:10.1.0"
@@ -1966,7 +2085,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^10.2.2":
+"glob@npm:^10.2.2, glob@npm:^10.3.7":
   version: 10.4.5
   resolution: "glob@npm:10.4.5"
   dependencies:
@@ -3281,6 +3400,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ramda@npm:^0.29.1":
+  version: 0.29.1
+  resolution: "ramda@npm:0.29.1"
+  checksum: 10c0/5de53a07400959c1a704c366ec52b1b8cd9a444dc1f9cdf17d607e0b9eeaa38cbaea309d43e59dbd7f36731ba977a64d40092555c0e7c2d4a41e8e922239c0ba
+  languageName: node
+  linkType: hard
+
 "readable-stream@npm:^3.1.1":
   version: 3.6.2
   resolution: "readable-stream@npm:3.6.2"
@@ -3356,6 +3482,17 @@ __metadata:
   version: 1.1.0
   resolution: "reusify@npm:1.1.0"
   checksum: 10c0/4eff0d4a5f9383566c7d7ec437b671cc51b25963bd61bf127c3f3d3f68e44a026d99b8d2f1ad344afff8d278a8fe70a8ea092650a716d22287e8bef7126bb2fa
+  languageName: node
+  linkType: hard
+
+"rimraf@npm:^5.0.5":
+  version: 5.0.10
+  resolution: "rimraf@npm:5.0.10"
+  dependencies:
+    glob: "npm:^10.3.7"
+  bin:
+    rimraf: dist/esm/bin.mjs
+  checksum: 10c0/7da4fd0e15118ee05b918359462cfa1e7fe4b1228c7765195a45b55576e8c15b95db513b8466ec89129666f4af45ad978a3057a02139afba1a63512a2d9644cc
   languageName: node
   linkType: hard
 
@@ -3551,57 +3688,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "steam-bot@workspace:."
   dependencies:
-    "@babel/generator": "npm:^7.28.0"
-    "@babel/parser": "npm:^7.28.0"
-    "@babel/traverse": "npm:^7.28.0"
-    "@babel/types": "npm:^7.28.2"
-    "@effect/cli": "npm:^0.69.0"
-    "@effect/core": "npm:^0.0.16"
-    "@effect/experimental": "npm:^0.54.3"
-    "@effect/language-service": "npm:^0.34.0"
-    "@effect/opentelemetry": "npm:^0.56.1"
-    "@effect/platform": "npm:^0.90.0"
-    "@effect/schema": "npm:^0.75.5"
-    "@effect/typeclass": "npm:^0.36.0"
-    "@electron/remote": "npm:^2.1.3"
-    "@total-typescript/ts-reset": "npm:^0.6.1"
-    "@types/babel__generator": "npm:^7"
-    "@types/babel__traverse": "npm:^7"
-    "@types/node": "npm:^24.2.0"
-    "@types/request": "npm:^2.48.13"
-    "@types/steam-totp": "npm:^2.1.2"
-    "@types/steam-user": "npm:^5.1.0"
-    "@types/steamcommunity": "npm:^3.43.8"
-    "@types/steamid": "npm:^2.0.3"
-    cheerio: "npm:^1.1.2"
-    effect: "npm:^3.17.6"
-    electron: "npm:^37.2.6"
-    electron-find: "npm:^1.0.7"
-    electron-log: "npm:^5.4.2"
-    electron-updater: "npm:6.6.2"
     fastq: "npm:^1.19.1"
-    file-manager: "npm:^2.0.1"
-    filequeue: "npm:^0.5.0"
-    generate-password: "npm:^1.7.1"
-    machine-uuid: "npm:^1.2.0"
-    magic-regexp: "npm:^0.10.0"
-    openai: "npm:^5.12.0"
-    request: "npm:^2.88.2"
-    showify: "npm:^0.2.1"
-    steam-client: "npm:^2.5.8"
-    steam-session: "npm:^1.9.4"
-    steam-totp: "npm:^2.1.2"
-    steam-user: "npm:^5.2.3"
-    steamcommunity: "npm:^3.49.0"
-    steamid: "npm:^2.1.0"
-    string-ts: "npm:^2.2.1"
-    ts-node: "npm:^10.9.2"
-    ts-regexp: "npm:^0.1.1"
-    typed-regex: "npm:^0.0.8"
-    typed-regexp: "npm:^1.0.4"
-    typeid-js: "npm:^1.2.0"
     typescript: "npm:^5.9.2"
-    zefyr: "npm:^0.0.1-alpha.21"
   languageName: unknown
   linkType: soft
 
@@ -3889,6 +3977,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-toolbelt@npm:^9.6.0":
+  version: 9.6.0
+  resolution: "ts-toolbelt@npm:9.6.0"
+  checksum: 10c0/838f9a2f0fe881d5065257a23b402c41315b33ff987b73db3e2b39fcb70640c4c7220e1ef118ed5676763543724fdbf4eda7b0e2c17acb667ed1401336af9f8c
+  languageName: node
+  linkType: hard
+
 "tunnel-agent@npm:^0.6.0":
   version: 0.6.0
   resolution: "tunnel-agent@npm:0.6.0"
@@ -3933,7 +4028,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typeid-js@npm:^1.2.0":
+"typeid-js@npm:^1.0.0, typeid-js@npm:^1.2.0":
   version: 1.2.0
   resolution: "typeid-js@npm:1.2.0"
   dependencies:
@@ -3942,7 +4037,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.9.2":
+"types-ramda@npm:^0.29.10":
+  version: 0.29.10
+  resolution: "types-ramda@npm:0.29.10"
+  dependencies:
+    ts-toolbelt: "npm:^9.6.0"
+  checksum: 10c0/cc6439341a60a4f2b49e1ac447c8a0279f161464fd0a204abaa57e90e101772c0b1adc185a7c0715c3836c19594a9ec268c1e5c4394d0e409cb71d141def3963
+  languageName: node
+  linkType: hard
+
+"typescript@npm:^5.3.3, typescript@npm:^5.9.2":
   version: 5.9.2
   resolution: "typescript@npm:5.9.2"
   bin:
@@ -3952,7 +4056,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.9.2#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A^5.3.3#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.9.2#optional!builtin<compat/typescript>":
   version: 5.9.2
   resolution: "typescript@patch:typescript@npm%3A5.9.2#optional!builtin<compat/typescript>::version=5.9.2&hash=5786d5"
   bin:

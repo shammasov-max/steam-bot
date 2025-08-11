@@ -6,5 +6,6 @@
   },
   "search.exclude": {
     "js": true
-  }
+  },
+  "CodeGPT.apiKey": "CodeGPT Plus Beta"
 }
