@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+  }
+  
+  body {
+    @apply bg-steam-darkblue text-white;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-steam-green hover:bg-steam-green/80 text-white px-4 py-2 rounded font-medium transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-steam-lightblue hover:bg-steam-lightblue/80 text-white px-4 py-2 rounded font-medium transition-colors;
+  }
+  
+  .input-field {
+    @apply bg-steam-blue border border-steam-lightblue rounded px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-steam-green;
+  }
+  
+  .modal-backdrop {
+    @apply fixed inset-0 bg-black/60 backdrop-blur-sm z-40;
+  }
+  
+  .modal-content {
+    @apply bg-steam-blue border border-steam-lightblue rounded-lg shadow-xl;
+  }
+}
