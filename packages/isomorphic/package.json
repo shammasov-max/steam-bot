@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "effect": "^3.17.6",
-    "typeid-js": "^1.2.0",
-    "magic-regexp": "^0.10.0"
+    "magic-regexp": "^0.10.0",
+    "typeid-js": "^1.2.0"
   },
   "devDependencies": {
     "typescript": "^5.9.2"
