@@ -10,5 +10,6 @@
     "start": "echo \"frontend not yet implemented\""
   },
   "dependencies": {
+    "@steam-bot/isomorphic": "workspace:^"
   }
 }
