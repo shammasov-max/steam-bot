@@ -1,0 +1,24 @@
+{
+  "name": "@steam-bot/isomorphic",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "yarn@4.9.2",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "effect": "^3.17.6",
+    "typeid-js": "^1.2.0",
+    "magic-regexp": "^0.10.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

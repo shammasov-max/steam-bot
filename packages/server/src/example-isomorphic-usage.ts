@@ -4,22 +4,22 @@
  */
 
 // Domain models
-import type { AppState, Bot, Task } from '../../isomorphic/src/domain/models.js'
+import type { AppState, Bot, Task } from '@steam-bot/isomorphic'
 
 // Events
-import { events } from '../../isomorphic/src/events/creators.js'
-import type { DomainEvent } from '../../isomorphic/src/events/schemas.js'
+import { events } from '@steam-bot/isomorphic'
+import type { DomainEvent } from '@steam-bot/isomorphic'
 
 // Commands
-import { commands } from '../../isomorphic/src/commands/schemas.js'
-import type { Command } from '../../isomorphic/src/commands/schemas.js'
+import { commands } from '@steam-bot/isomorphic'
+import type { Command } from '@steam-bot/isomorphic'
 
 // State management
-import { rootReducer, createInitialAppState } from '../../isomorphic/src/utils/reducers.js'
+import { rootReducer, createInitialAppState } from '@steam-bot/isomorphic'
 
 // Utilities
-import { generateBotId, generateTaskId } from '../../isomorphic/src/utils/typeid.js'
-import { EventBuffer, createSSESnapshot, formatSSEMessage } from '../../isomorphic/src/utils/sse.js'
+import { generateBotId, generateTaskId } from '@steam-bot/isomorphic'
+import { EventBuffer, createSSESnapshot, formatSSEMessage } from '@steam-bot/isomorphic'
 
 // Example: Initialize application state
 const initializeApp = () => {

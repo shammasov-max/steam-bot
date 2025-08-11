@@ -8,6 +8,7 @@
   "scripts": {
     "build": "tsc -b",
     "typecheck": "tsc -b --noEmit",
+    "build:isomorphic": "yarn workspace @steam-bot/isomorphic build",
     "build:server": "yarn workspace @steam-bot/server build",
     "build:frontend": "yarn workspace @steam-bot/frontend build",
     "start": "yarn workspace @steam-bot/server start"
