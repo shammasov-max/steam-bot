@@ -1,22 +1,26 @@
 import React, { useState } from 'react'
 import Header from '../Header/Header'
-import Console from '../Console/Console'
-import ModalManager from '../Modal/ModalManager'
-import { ModalState, NavigationTab, Console as ConsoleEntry, Account, Friend } from '../../types'
+import ConsolePage from '../../pages/ConsolePage'
+import AccountsPage from '../../pages/AccountsPage'
+import ProxyPage from '../../pages/ProxyPage'
+import FriendsPage from '../../pages/FriendsPage'
+import SettingsPage from '../../pages/SettingsPage'
+import ActionsPage from '../../pages/ActionsPage'
+import FAQPage from '../../pages/FAQPage'
+import { NavigationTab, Console as ConsoleEntry, Account, Friend } from '../../types'
 
 const Layout: React.FC = () => {
-  const [modalState, setModalState] = useState<ModalState>({ isOpen: false, type: 'accounts' })
-  const [activeTab, setActiveTab] = useState('console')
+  const [activePage, setActivePage] = useState('console')
 
   // Mock data for demonstration
   const mockTabs: NavigationTab[] = [
-    { id: 'console', label: 'Console', active: activeTab === 'console' },
-    { id: 'accounts', label: 'Import accounts', active: false, badge: 5 },
-    { id: 'proxy', label: 'Import proxy', active: false },
-    { id: 'friends', label: 'Friends', active: false, badge: 12 },
-    { id: 'settings', label: 'Settings', active: false },
-    { id: 'actions', label: 'Actions', active: false },
-    { id: 'faq', label: 'FAQ', active: false },
+    { id: 'console', label: 'Console', active: activePage === 'console' },
+    { id: 'accounts', label: 'Import accounts', active: activePage === 'accounts', badge: 5 },
+    { id: 'proxy', label: 'Import proxy', active: activePage === 'proxy' },
+    { id: 'friends', label: 'Friends', active: activePage === 'friends', badge: 12 },
+    { id: 'settings', label: 'Settings', active: activePage === 'settings' },
+    { id: 'actions', label: 'Actions', active: activePage === 'actions' },
+    { id: 'faq', label: 'FAQ', active: activePage === 'faq' },
   ]
 
   const mockConsoleEntries: ConsoleEntry[] = [
@@ -90,42 +94,28 @@ const Layout: React.FC = () => {
     }
   ]
 
-  const openModal = (type: ModalState['type']) => {
-    setModalState({ isOpen: true, type })
-  }
-
-  const closeModal = () => {
-    setModalState({ isOpen: false, type: 'accounts' })
-  }
-
-  const handleTabClick = (tabId: string) => {
-    setActiveTab(tabId)
-    if (tabId !== 'console' && tabId !== 'faq') {
-      openModal(tabId as ModalState['type'])
-    }
+  const handleNavClick = (pageId: string) => {
+    setActivePage(pageId)
   }
 
   return (
     <div className="min-h-screen bg-steam-darkblue text-white">
-      <Header 
+      <Header
         tabs={mockTabs}
-        onTabClick={handleTabClick}
+        onNavClick={handleNavClick}
         accountsCount={mockAccounts.length}
         onlineAccountsCount={mockAccounts.filter(a => a.status === 'online').length}
       />
       
       <main className="container mx-auto px-4 py-6">
-        {activeTab === 'console' && (
-          <Console entries={mockConsoleEntries} />
-        )}
+        {activePage === 'console' && <ConsolePage entries={mockConsoleEntries} />}
+        {activePage === 'accounts' && <AccountsPage accounts={mockAccounts} />}
+        {activePage === 'proxy' && <ProxyPage />}
+        {activePage === 'friends' && <FriendsPage friends={mockFriends} />}
+        {activePage === 'settings' && <SettingsPage />}
+        {activePage === 'actions' && <ActionsPage />}
+        {activePage === 'faq' && <FAQPage />}
       </main>
-
-      <ModalManager
-        modalState={modalState}
-        onClose={closeModal}
-        accounts={mockAccounts}
-        friends={mockFriends}
-      />
     </div>
   )
 }
