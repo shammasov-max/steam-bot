@@ -4,14 +4,14 @@ import { Activity, Users, Wifi, Settings, Zap, HelpCircle } from 'lucide-react'
 
 interface HeaderProps {
   tabs: NavigationTab[]
-  onTabClick: (tabId: string) => void
+  onNavClick: (pageId: string) => void
   accountsCount: number
   onlineAccountsCount: number
 }
 
-const Header: React.FC<HeaderProps> = ({ tabs, onTabClick, accountsCount, onlineAccountsCount }) => {
-  const getTabIcon = (tabId: string) => {
-    switch (tabId) {
+const Header: React.FC<HeaderProps> = ({ tabs, onNavClick, accountsCount, onlineAccountsCount }) => {
+  const getNavIcon = (pageId: string) => {
+    switch (pageId) {
       case 'console': return <Activity size={16} />
       case 'accounts': return <Users size={16} />
       case 'proxy': return <Wifi size={16} />
@@ -56,16 +56,16 @@ const Header: React.FC<HeaderProps> = ({ tabs, onTabClick, accountsCount, online
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => onTabClick(tab.id)}
+                onClick={() => onNavClick(tab.id)}
                 className={`
                   flex items-center space-x-2 px-4 py-2 rounded-t-lg font-medium text-sm transition-colors relative
-                  ${tab.active 
-                    ? 'bg-steam-lightblue text-white border-b-2 border-steam-green' 
+                  ${tab.active
+                    ? 'bg-steam-lightblue text-white border-b-2 border-steam-green'
                     : 'text-gray-300 hover:text-white hover:bg-steam-lightblue/30'
                   }
                 `}
               >
-                {getTabIcon(tab.id)}
+                {getNavIcon(tab.id)}
                 <span>{tab.label}</span>
                 {tab.badge && (
                   <span className="bg-steam-green text-white text-xs px-2 py-0.5 rounded-full min-w-[20px] text-center">
