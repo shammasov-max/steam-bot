@@ -1,6 +1,7 @@
 {
   "name": "steam-bot",
   "private": true,
+  "type": "module",
   "packageManager": "yarn@4.9.2",
   "workspaces": [
     "packages/*"
@@ -10,9 +11,13 @@
     "typecheck": "tsc -b --noEmit",
     "build:server": "yarn workspace @steam-bot/server build",
     "build:frontend": "yarn workspace @steam-bot/frontend build",
-    "start": "yarn workspace @steam-bot/server start"
+    "start": "yarn workspace @steam-bot/server start",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:isomorphic": "playwright test packages/isomorphic --project=unit"
   },
   "devDependencies": {
+    "@playwright/test": "^1.45.0",
     "typescript": "^5.9.2"
   },
   "dependencies": {

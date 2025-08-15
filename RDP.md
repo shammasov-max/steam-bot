@@ -1,26 +1,47 @@
 # RDP - Steam Multichat - AI Facilitated
 
 ## Table of Contents
-1. [Objective & Summary](#1-objective--summary)
-2. [Users & Use Cases](#2-users--use-cases)
-3. [Scope (MVP Feature Set)](#3-scope-mvp-feature-set)
-4. [Non-Goals](#4-non-goals)
-5. [Constraints & Policies](#5-constraints--policies)
-6. [Architecture Overview](#6-architecture-overview)
-7. [Domain Model (MVP)](#7-domain-model-mvp)
-8. [Event Contract (Isomorphic, action === event)](#8-event-contract-isomorphic-action--event)
-9. [Commands](#9-commands)
-10. [Behavior & Workflows](#10-behavior--workflows)
-11. [UI/UX Requirements (MVP)](#11-uiux-requirements-mvp)
-12. [Data & Persistence](#12-data--persistence)
-13. [Operational Requirements](#13-operational-requirements)
-14. [Security & Privacy](#14-security--privacy)
-15. [Performance Targets (MVP)](#15-performance-targets-mvp)
-16. [Acceptance Criteria](#16-acceptance-criteria)
-17. [Risks & Mitigations](#17-risks--mitigations)
-18. [Post-MVP Roadmap](#18-post-mvp-roadmap)
-19. [Glossary](#19-glossary)
-20. [Open Implementation Notes](#20-open-implementation-notes-mvp-discipline)
+- [RDP - Steam Multichat - AI Facilitated](#rdp---steam-multichat---ai-facilitated)
+  - [Table of Contents](#table-of-contents)
+  - [1. Objective \& Summary](#1-objective--summary)
+  - [2. Users \& Use Cases](#2-users--use-cases)
+    - [Primary Users](#primary-users)
+    - [Top Use Cases](#top-use-cases)
+  - [3. Scope (MVP Feature Set)](#3-scope-mvp-feature-set)
+  - [4. Non-Goals](#4-non-goals)
+  - [5. Constraints \& Policies](#5-constraints--policies)
+  - [6. Architecture Overview](#6-architecture-overview)
+    - [Code structure and tech stack](#code-structure-and-tech-stack)
+    - [Event/Command/Actions](#eventcommandactions)
+    - [Data Flow (CQRS-lite via SSE)](#data-flow-cqrs-lite-via-sse)
+  - [7. Slices (Entities)](#7-slices-entities)
+    - [Bot](#bot)
+    - [Task](#task)
+    - [Chat](#chat)
+    - [System](#system)
+  - [8. Event Contract (Isomorphic, action === event)](#8-event-contract-isomorphic-action--event)
+  - [9. Commands](#9-commands)
+  - [10. Behavior \& Workflows](#10-behavior--workflows)
+    - [Task Assignment (round-robin)](#task-assignment-round-robin)
+    - [Invite Scheduler](#invite-scheduler)
+    - [Scripted Dialog (3–5 steps)](#scripted-dialog-35-steps)
+    - [Manual Takeover](#manual-takeover)
+  - [11. UI/UX Requirements (MVP)](#11-uiux-requirements-mvp)
+    - [Bots View](#bots-view)
+    - [Tasks View](#tasks-view)
+    - [Multichat](#multichat)
+    - [System Indicators](#system-indicators)
+    - [Performance UX Notes](#performance-ux-notes)
+  - [12. Data \& Persistence](#12-data--persistence)
+  - [13. Operational Requirements](#13-operational-requirements)
+    - [SSE Server Setup](#sse-server-setup)
+  - [14. Security \& Privacy](#14-security--privacy)
+  - [15. Performance Targets (MVP)](#15-performance-targets-mvp)
+  - [16. Acceptance Criteria](#16-acceptance-criteria)
+  - [17. Risks \& Mitigations](#17-risks--mitigations)
+  - [18. Post-MVP Roadmap](#18-post-mvp-roadmap)
+  - [19. Glossary](#19-glossary)
+  - [20. Open Implementation Notes (MVP discipline)](#20-open-implementation-notes-mvp-discipline)
 
 ## 1. Objective & Summary
 Build a web-based operations console that automates conversations between Steam bot accounts and real players via Steam Friends & Chat. The system targets developers and project managers, prioritizing interface predictability, fast feedback, and operational stability.
@@ -107,18 +128,21 @@ Items marked with #mvp are pragmatic compromises for speed. We will refactor the
 
 ### Code structure and tech stack
 Monorepo — based on Yarn workspaces.
-There are three packages in the monorepo:
+There are four packages in the monorepo:
 
-1. frontend: React SPA + Tailwind CSS
-2. backend: Node.js + Effect-TS (functional orchestration), SSE, and a few HTTP routes (no REST/CRUD).
-3. isomorphic: Redux, Redux-Saga, Effect-TS — shared functions and types across frontend and backend. Event-driven architecture, similar to Event Sourcing + CQRS. Redux is the isomorphic, monolithic state layer (#mvp).
+1. frontend: React SPA + Tailwind CSS   
+2. backend: Node.js + Effect-TS (functional orchestration), SSE + 2 HTTP routes
+3. isomorphic: shared functions and types about Event-driven architecture, similar to Event Sourcing + CQRS. Redux is the isomorphic, monolithic state layer (#mvp).
+4. steam-hacker: unofficial steam access via maFile JSON.
 
-Redux actions are events; action creators/thunks are commands.
+
+
+### Event/Command/Actions
+Some of redux actions are events; 
+Some of redux actions co creators/thunks are commands.
 Reducers are event handlers (aggregates).
-
-### Naming Policy
 - Prefer simple, Redux-style naming over strict Event Sourcing/CQRS/DDD conventions.
-- Use slice names (plural) for collections like tasks and bots; singular structures follow the same slice naming.
+- Use slice names (plural) for collections like tasks and bots; singular structures follow the same slice naming. use createEntitySlice for entities.
 - Use slice names instead of aggregate names.
 - Use entity IDs analogous to aggregateId.
 
@@ -149,26 +173,32 @@ Event creators via createEventAction(kind, inferAggregate).
 
 Policy: action === event, type === kind, consistent meta shape.
 
-## 7. Domain Model (MVP)
-Bot
+## 7. Slices (Entities)
+
+Each slice defined with dependent types and helpers in one file with path isomorphic/src/slices/{sliceName}.ts.
+
+Each slice has effect-ts schema for validation
+
+### Bot
 
 Fields: { id, steamId64, label?, proxyUrl, status, lastSeen? }
 
 BotStatus: connecting | connected | disconnected | authFailed
 
-Task
+
+### Task
 
 Fields: { id, playerSteamId64, item, priceMin, priceMax, status, assignedBotId? }
 
 TaskStatus: created | assigned | invited | accepted | failed | disposed | resolved
 
-Chat
+### Chat
 
 Fields: { id, botId, playerSteamId64, agentEnabled: boolean, messages: Msg[], scriptStep? }
 
 Msg: { id, from: 'bot'|'player', text, ts }
 
-System
+### System
 
 Fields: { roundRobin: { pointer, eligibleBotIds[] }, rateLimits: { [botId]: { lastInviteAt? } } }
 
@@ -306,7 +336,7 @@ Columns
 | status     | connecting, connected, disconnected, authFailed     |
 | lastSeen   | Optional timestamp                                  |
 
-Actions
+Buttons
 
 - Add via maFile
 - Remove
@@ -324,7 +354,7 @@ Columns
 | status          | created→assigned→...              |
 | assigned bot    | Bot handling the task             |
 
-Actions
+Buttons
 
 - CreateTask
 - DisposeTask
@@ -357,6 +387,7 @@ Recovery: On process restart, load last snapshot; if missing, start empty. (No e
 ## 13. Operational Requirements
  
 Process manager: PM2 single process (no cluster mode).
+No special CI/CD pipeline; just push to GitHub and deploy to production.    
  
 ### SSE Server Setup
 
@@ -450,4 +481,3 @@ For entity IDs, use typeid-js with slice prefixes; for meta.id, use a unique eve
 
 Limit initial chat history in snapshot (e.g., last 50 messages per chat) to control payload size.
 
-This PRD intentionally prioritizes “make it work” decisions: simple, reliable, and observable. The event contract is stable enough to carry into post-MVP upgrades without rewrites.
