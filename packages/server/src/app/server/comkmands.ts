@@ -1,8 +1,8 @@
 // server/commands.ts (фрагмент)
 
-import type { Command, CommandResult } from "@app/isomorphic/commands";
-import { taskCreated, taskStatusChanged } from "@app/isomorphic/events/actions";
-import type { WireAction } from "@app/isomorphic/events/meta";
+import type { Command, CommandResult } from "@steam-bot/isomorphic";
+import { taskCreated, taskStatusChanged } from "@steam-bot/isomorphic";
+import type { WireAction } from "@steam-bot/isomorphic";
 
 // предположим, что есть store и broadcastBatch из вашего кода
 declare const store: { dispatch: (a: WireAction) => void };
