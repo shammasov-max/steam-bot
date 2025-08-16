@@ -133,9 +133,7 @@ There are four packages in the monorepo:
 1. frontend: React SPA + Tailwind CSS   
 2. backend: Node.js + Effect-TS (functional orchestration), SSE + 2 HTTP routes
 3. isomorphic: shared functions and types about Event-driven architecture, similar to Event Sourcing + CQRS. Redux is the isomorphic, monolithic state layer (#mvp).
-4. steam-hacker: unofficial steam access via maFile JSON.
-
-
+4. steam-utils: effect-ts based steam utils. Internally calls other open-source unofficial npm packages.
 
 ### Event/Command/Actions
 Some of redux actions are events; 
@@ -212,19 +210,19 @@ snapshot — { state } (SSE-first message only)
 
 Bots
 
-bot.connected — { botId }
+connected — { botId }
 
-bot.disconnected — { botId }
+disconnected — { botId }
 
-bot.authFailed — { botId, reason }
+authFailed — { botId, reason }
 
 Tasks
 
-task.created — { taskId, playerSteamId64, item, priceMin, priceMax }
+created — { taskId, playerSteamId64, item, priceMin, priceMax }
 
-task.assigned — { taskId, botId }
+assigned — { taskId, botId }
 
-task.statusChanged — { taskId, status } (status per enum policy)
+statusChanged — { taskId, status } (status per enum policy)
 
 Friend Invites
 
@@ -236,13 +234,13 @@ friendInvite.failed — { botId, playerSteamId64, reason }
 
 Chats
 
-chat.started — { chatId, botId, playerSteamId64 }
+started — { chatId, botId, playerSteamId64 }
 
-chat.messageReceived — { chatId, from: 'player'|'bot', text }
+messageReceived — { chatId, from: 'player'|'bot', text }
 
-chat.messageSent — { chatId, text }
+messageSent — { chatId, text }
 
-chat.agentToggled — { chatId, enabled }
+agentToggled — { chatId, enabled }
 
 Dialog Script
 

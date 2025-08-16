@@ -124,6 +124,12 @@ export interface CreateEntitySliceConfig<TName extends string, TEntity, TReducer
    * Custom pluralization function (optional)
    */
   pluralizeFn?: (singular: string) => string;
+  
+  /**
+   * Extra reducers for actions that create/delete entities or handle slice-level operations
+   * These are passed directly to Redux Toolkit's createSlice
+   */
+  extraReducers?: Record<string, (state: Draft<EntityState<TEntity>>, action: PayloadAction<any>) => void>;
 }
 
 /**
@@ -170,7 +176,8 @@ export function createEntitySlice<
     initialEntities = [],
     entityReducers,
     entitySchema,
-    pluralizeFn = pluralize
+    pluralizeFn = pluralize,
+    extraReducers = {}
   } = config;
   
   const sliceName = pluralizeFn(entityName);
@@ -224,16 +231,19 @@ export function createEntitySlice<
     };
   });
   
+  // Merge extraReducers with sliceReducers
+  const allReducers = { ...sliceReducers, ...extraReducers } as any;
+  
   // Create the slice
   const slice = createSlice({
     name: sliceName,
     initialState,
-    reducers: sliceReducers as ValidateSliceCaseReducers<EntityState<TEntity>, SliceReducersFromEntityReducers<TName, TEntity, TReducers>>
+    reducers: allReducers as ValidateSliceCaseReducers<EntityState<TEntity>, SliceReducersFromEntityReducers<TName, TEntity, TReducers>>
   });
   
   // Add selector functions
   const enhancedSlice = Object.assign(slice, {
-    selectEntity: (id: string) =>(state: EntityState<TEntity>) => state.entities[id],
+    selectEntity: (state: EntityState<TEntity>, id: string) => state.entities[id],
     selectAllEntities: (state: EntityState<TEntity>) => state.ids.map(id => state.entities[id]),
     selectEntityIds: (state: EntityState<TEntity>) => state.ids
   });

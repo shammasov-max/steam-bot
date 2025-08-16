@@ -611,6 +611,7 @@ __metadata:
     "@effect/schema": "npm:^0.75.5"
     "@reduxjs/toolkit": "npm:^2.8.2"
     effect: "npm:^3.17.6"
+    typescript: "npm:^5.9.2"
   languageName: unknown
   linkType: soft
 

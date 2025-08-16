@@ -1,12 +1,15 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "composite": true,
     "declaration": true,
     "rootDir": "./src",
     "outDir": "./dist",
-     "plugins": [
+    "moduleResolution": "bundler",
+    "plugins": [
       { "name": "@effect/language-service" }
     ]
   },
-  "include": ["src/**/*", "types/**/*"]
+  "include": ["src/**/*"]
 }
+
