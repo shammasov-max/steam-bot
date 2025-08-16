@@ -118,4 +118,5 @@ Located in `packages/isomorphic/src/slices/`:
 - Agent can be toggled per chat for manual operator takeover
 
 ## Legacy Code
+Skip folders and files which names starts with symbol "_".
 Focus development on the `packages/` workspace structure.
