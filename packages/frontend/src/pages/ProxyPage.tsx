@@ -437,7 +437,11 @@ const ProxyPage: React.FC = () => {
           <li>Use the filter icons in column headers for advanced filtering</li>
           <li>Select multiple rows using Ctrl/Cmd + click</li>
           <li>Resize columns by dragging the column borders</li>
+          <li>Export filtered data to CSV using the Export button</li>
         </ul>
+        <p className="text-xs text-gray-500 mt-2">
+          <strong>Note:</strong> Using AG Grid Community Edition. Some advanced features like range selection and column pinning require AG Grid Enterprise.
+        </p>
       </div>
     </div>
   )
