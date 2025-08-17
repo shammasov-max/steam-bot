@@ -1,9 +1,9 @@
+/* AG Grid Steam Theme */
+@import './styles/ag-grid-steam-theme.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* AG Grid Steam Theme */
-@import './styles/ag-grid-steam-theme.css';
 
 @layer base {
   :root {
