@@ -1,9 +1,10 @@
-import React, { useState, useMemo, useCallback } from 'react'
+import React, { useState, useMemo, useCallback, useRef } from 'react'
 import { AgGridReact } from 'ag-grid-react'
-import { ColDef, GridReadyEvent, FilterChangedEvent, SortChangedEvent } from 'ag-grid-community'
+import { ColDef, GridReadyEvent, FilterChangedEvent, SortChangedEvent, GridApi } from 'ag-grid-community'
 import { ProxyServer } from '../types'
 import SearchBox from '../components/UI/SearchBox'
-import { Wifi, WifiOff, Plus, Upload, Download, Trash2, RefreshCw } from 'lucide-react'
+import StatusFilter from '../components/Grid/StatusFilter'
+import { Wifi, WifiOff, Plus, Upload, Download, Trash2, RefreshCw, MoreVertical } from 'lucide-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import '../styles/ag-grid-steam-theme.css'
 
@@ -93,6 +94,8 @@ const ActionsRenderer = (params: any) => {
 
 const ProxyPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('')
+  const gridRef = useRef<AgGridReact>(null)
+  const [selectedRows, setSelectedRows] = useState<ProxyServer[]>([])
   
   const [proxies] = useState<ProxyServer[]>([
     {
@@ -192,13 +195,9 @@ const ProxyPage: React.FC = () => {
       headerName: 'Status',
       field: 'status',
       sortable: true,
-      filter: true,
+      filter: StatusFilter,
       width: 120,
-      cellRenderer: StatusRenderer,
-      filterParams: {
-        filterOptions: ['equals'],
-        suppressAndOrCondition: true,
-      }
+      cellRenderer: StatusRenderer
     },
     {
       headerName: 'Username',
@@ -267,6 +266,35 @@ const ProxyPage: React.FC = () => {
     console.log('Sort changed:', params.api.getSortModel())
   }, [])
 
+  const onSelectionChanged = useCallback(() => {
+    const selectedNodes = gridRef.current?.api?.getSelectedNodes() || []
+    setSelectedRows(selectedNodes.map(node => node.data))
+  }, [])
+
+  // Bulk actions
+  const handleBulkTest = () => {
+    console.log('Testing proxies:', selectedRows)
+  }
+
+  const handleBulkConnect = () => {
+    console.log('Connecting proxies:', selectedRows)
+  }
+
+  const handleBulkDelete = () => {
+    console.log('Deleting proxies:', selectedRows)
+  }
+
+  const clearFilters = () => {
+    gridRef.current?.api?.setFilterModel(null)
+  }
+
+  const exportData = () => {
+    gridRef.current?.api?.exportDataAsCsv({
+      fileName: 'proxies.csv',
+      columnSeparator: ','
+    })
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -283,7 +311,7 @@ const ProxyPage: React.FC = () => {
           placeholder="Search proxies by host, port, username, status, or accounts..."
           className="flex-1 max-w-md"
         />
-        
+
         <div className="flex items-center space-x-4">
           <button className="btn-primary flex items-center space-x-2">
             <Plus size={16} />
@@ -293,34 +321,79 @@ const ProxyPage: React.FC = () => {
             <Upload size={16} />
             <span>Import List</span>
           </button>
-          <button className="btn-secondary flex items-center space-x-2">
+          <button
+            onClick={exportData}
+            className="btn-secondary flex items-center space-x-2"
+          >
             <Download size={16} />
             <span>Export</span>
           </button>
-          <button className="btn-secondary flex items-center space-x-2">
+          <button
+            onClick={clearFilters}
+            className="btn-secondary flex items-center space-x-2"
+          >
             <RefreshCw size={16} />
-            <span>Test All</span>
+            <span>Clear Filters</span>
           </button>
         </div>
       </div>
 
+      {selectedRows.length > 0 && (
+        <div className="p-4 bg-steam-lightblue/30 rounded-lg">
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-gray-300">
+              {selectedRows.length} proxy{selectedRows.length > 1 ? 'ies' : ''} selected
+            </span>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={handleBulkConnect}
+                className="flex items-center space-x-1 px-3 py-1 bg-green-600 hover:bg-green-700 rounded text-sm"
+              >
+                <Wifi size={14} />
+                <span>Connect</span>
+              </button>
+              <button
+                onClick={handleBulkTest}
+                className="flex items-center space-x-1 px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-sm"
+              >
+                <RefreshCw size={14} />
+                <span>Test</span>
+              </button>
+              <button
+                onClick={handleBulkDelete}
+                className="flex items-center space-x-1 px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm"
+              >
+                <Trash2 size={14} />
+                <span>Delete</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="ag-theme-steam" style={{ height: '600px', width: '100%' }}>
         <AgGridReact
+          ref={gridRef}
           rowData={filteredProxies}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           onGridReady={onGridReady}
           onFilterChanged={onFilterChanged}
           onSortChanged={onSortChanged}
+          onSelectionChanged={onSelectionChanged}
           animateRows={true}
           rowSelection="multiple"
           suppressRowClickSelection={false}
           rowMultiSelectWithClick={true}
           suppressMovableColumns={false}
           enableCellTextSelection={true}
-          pagination={false}
+          enableRangeSelection={true}
+          pagination={true}
+          paginationPageSize={20}
           headerHeight={40}
           rowHeight={50}
+          suppressMenuHide={false}
+          enableBrowserTooltips={true}
         />
       </div>
 
