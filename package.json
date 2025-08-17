@@ -12,13 +12,15 @@
     "build:isomorphic": "yarn workspace @steam-bot/isomorphic build",
     "build:server": "yarn workspace @steam-bot/server build",
     "build:frontend": "yarn workspace @steam-bot/frontend build",
+    "dev": "yarn workspace @steam-bot/server dev",
     "start": "yarn workspace @steam-bot/server start",
-    "test": "playwright test",
+    "test": "tsx --test packages/isomorphic/src/**/*.test.ts packages/server/src/**/*.test.ts",
     "test:ui": "playwright test --ui",
-    "test:isomorphic": "playwright test packages/isomorphic --project=unit"
+    "test:isomorphic": "tsx --test packages/isomorphic/src/**/*.test.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.45.0",
+    "tsx": "^4.20.4",
     "typescript": "^5.9.2"
   },
   "dependencies": {

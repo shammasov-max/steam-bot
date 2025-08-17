@@ -11,11 +11,17 @@ export {
   type EntityReducer,
   type EntityReducersMap,
   type CreateEntitySliceConfig
-} from './base/createEntitySlice';
+} from './base/createEntitySlice.js';
 
 // ============= Entity Slices =============
-export * from './slices';
+export * from './slices/index.js';
 
 // ============= Store setup helpers =============
-export { sliceReducers, sliceActions, sliceSelectors, type RootState } from './slices';
+export { sliceReducers, sliceActions, sliceSelectors, type RootState } from './slices/index.js';
+
+// ============= Events =============
+export * from './events/actions.js';
+export * from './events/factory.js';
+export * from './events/meta.js';
+export * from './events/payloads.js';
 

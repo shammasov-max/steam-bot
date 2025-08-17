@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "dev": "node --loader ts-node/esm ./src/index.ts",
+    "dev": "tsx ./src/index.ts",
     "start": "node ./dist/index.js"
   },
   "dependencies": {

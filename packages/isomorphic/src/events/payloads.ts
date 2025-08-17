@@ -1,5 +1,5 @@
 import * as S from "effect/Schema";
-import { BotId, ChatId, TaskId, SteamID64, TaskStatus } from "./core";
+import { BotId, ChatId, TaskId, ProxyId, MaFileId, SteamID64, TaskStatus } from "./core";
 
 // Full registry of payload schemas (MVP + growth)
 export const PayloadSchemas = {
@@ -9,7 +9,7 @@ export const PayloadSchemas = {
   // Bots
   "bot.connected":     S.Struct({ botId: BotId }),
   "bot.disconnected":  S.Struct({ botId: BotId }),
-  "bot.authFailed":    S.Struct({ botId: BotId, reason: S.String }),
+  "bot.authenticationFailed":    S.Struct({ botId: BotId, reason: S.String }),
 
   // Tasks
   "task.created": S.Struct({
@@ -20,7 +20,7 @@ export const PayloadSchemas = {
     priceMax: S.Number
   }),
   "task.assigned":      S.Struct({ taskId: TaskId, botId: BotId }),
-  "task.statusChanged": S.Struct({ taskId: TaskId, status: TaskStatus }),
+  "task.statusUpdated": S.Struct({ taskId: TaskId, status: TaskStatus }),
 
   // Invites
   "friendInvite.sent":     S.Struct({ botId: BotId, playerSteamId64: SteamID64 }),
@@ -29,7 +29,7 @@ export const PayloadSchemas = {
 
   // Chats
   "chat.started":          S.Struct({ chatId: ChatId, botId: BotId, playerSteamId64: SteamID64 }),
-  "chat.messageReceived":  S.Struct({ chatId: ChatId, from: S.Literals("player","bot"), text: S.String }),
+  "chat.messageReceived":  S.Struct({ chatId: ChatId, from: S.Union(S.Literal("player"), S.Literal("bot")), text: S.String }),
   "chat.messageSent":      S.Struct({ chatId: ChatId, text: S.String }),
   "chat.agentToggled":     S.Struct({ chatId: ChatId, enabled: S.Boolean }),
 
@@ -38,7 +38,18 @@ export const PayloadSchemas = {
   "dialogScript.completed": S.Struct({ chatId: ChatId }),
 
   // Logs
-  "error.logged": S.Struct({ message: S.String, context: S.optional(S.Unknown) })
+  "error.logged": S.Struct({ message: S.String, context: S.optional(S.Unknown) }),
+
+  // Proxies
+  "proxy.assigned":  S.Struct({ proxyId: ProxyId, botId: BotId }),
+  "proxy.released":  S.Struct({ proxyId: ProxyId }),
+  "proxy.failed":    S.Struct({ proxyId: ProxyId, reason: S.optional(S.String) }),
+  "proxy.banned":    S.Struct({ proxyId: ProxyId, reason: S.optional(S.String) }),
+  "proxy.restored":  S.Struct({ proxyId: ProxyId }),
+
+  // MaFiles  
+  "maFile.assigned": S.Struct({ maFileId: MaFileId, botId: BotId }),
+  "maFile.released": S.Struct({ maFileId: MaFileId })
 } as const;
 
 export type EventKind = keyof typeof PayloadSchemas;

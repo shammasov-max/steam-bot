@@ -54,8 +54,8 @@ export const taskSlice = createEntitySlice({
       task.status = 'assigned';
     },
     
-    // Event: task.statusChanged
-    statusChanged: (task, payload: EntityActionPayload<'task', { status: TaskStatus }>) => {
+    // Event: task.statusUpdated
+    statusUpdated: (task, payload: EntityActionPayload<'task', { status: TaskStatus }>) => {
       task.status = payload.status;
     }
   },

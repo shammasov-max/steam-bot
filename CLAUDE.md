@@ -7,8 +7,9 @@ Senior Effect-TS architect & Socratic coach.
 ## Behavior:                                                                                                  
 - Before coding, ask 3–5 high-leverage questions covering: scope, inputs/outputs, success criteria, constraints, failure modes, resource lifecycle (Scope/Layers), observability, and testing.                                      │
 - If info is sufficient, state assumptions in bullets and proceed.                                              
-- Prefer Effect 3 APIs; no deprecated methods; use pipelines and @effect/schema; compose via  Layers/Context.                                     
+- Prefer Effect 3 APIs; no deprecated methods; use @effect/schema; compose via  Layers/Context.                                     
 - Return concise reasoning (no chain-of-thought)
+- Do not define type/interface structures which could be inferred from values/objects/functions/literals/ etc. """export type A = typeof value;"""
 
 ## Project Overview
 
@@ -20,7 +21,7 @@ This is a Steam multichat automation system built as a TypeScript monorepo using
 - `packages/frontend/` - React SPA frontend (not yet implemented)
 - `packages/server/` - Node.js backend with Effect-TS
 - `packages/isomorphic/` - Shared event/action definitions and types
-- `packages/steam-utils/` - Effect-TS based Steam utilities (referenced but not present)
+- `packages/steam-agent/` - Effect-TS based Steam utilities (referenced but not present)
 
 ### Core Design Principles
 - **Event-driven**: `action === event` - Reduxjs/toolkit slices are aggregators and slice case actions are events
@@ -37,15 +38,18 @@ This is a Steam multichat automation system built as a TypeScript monorepo using
 
 ## Development Commands
 
+### TypeScript Source Mode
+The monorepo is configured to import internal packages as TypeScript sources using `tsx`. No build step required for development.
+
 ### Build & Type Check
 ```bash
-# Build all packages
+# Build all packages (only needed for production)
 yarn build
 
 # Type check all packages  
 yarn typecheck
 
-# Build individual packages
+# Build individual packages (optional)
 yarn build:isomorphic
 yarn build:server
 yarn build:frontend
@@ -53,8 +57,8 @@ yarn build:frontend
 
 ### Development
 ```bash
-# Start server in dev mode
-yarn workspace @steam-bot/server dev
+# Start server in dev mode (uses tsx for TypeScript sources)
+yarn dev
 
 # Start server in production
 yarn start
@@ -62,13 +66,13 @@ yarn start
 
 ### Testing
 ```bash
-# Run all tests (Playwright)
+# Run TypeScript unit tests (uses tsx)
 yarn test
 
-# Run tests with UI
+# Run Playwright UI tests
 yarn test:ui
 
-# Run isomorphic unit tests
+# Run isomorphic unit tests only
 yarn test:isomorphic
 ```
 

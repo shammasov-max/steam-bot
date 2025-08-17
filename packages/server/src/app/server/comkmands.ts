@@ -1,7 +1,7 @@
 // server/commands.ts (фрагмент)
 
 import type { Command, CommandResult } from "@steam-bot/isomorphic";
-import { taskCreated, taskStatusChanged } from "@steam-bot/isomorphic";
+import { taskCreated, taskStatusUpdated } from "@steam-bot/isomorphic";
 import type { WireAction } from "@steam-bot/isomorphic";
 
 // предположим, что есть store и broadcastBatch из вашего кода
@@ -48,8 +48,8 @@ export async function handleCommand(cmd: Command): Promise<CommandResult> {
 
     // ✅ NEW
     case "DisposeTask": {
-      // меняем статус через существующее событие task.statusChanged
-      const evt = taskStatusChanged.make({
+      // меняем статус через существующее событие task.statusUpdated
+      const evt = taskStatusUpdated.make({
         taskId: cmd.payload.taskId,
         status: "disposed"
       });

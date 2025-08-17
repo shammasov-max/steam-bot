@@ -35,12 +35,29 @@ export {
   RateLimitEntrySchema
 } from './system';
 
+// ============= Proxies Slice =============
+export { 
+  proxySlice, 
+  type Proxy, 
+  type ProxyStatus, 
+  ProxySchema 
+} from './proxies';
+
+// ============= MaFiles Slice =============
+export { 
+  maFileSlice, 
+  type MaFile, 
+  MaFileSchema 
+} from './maFiles';
+
 // ============= Re-export all slices for convenient store setup =============
 
 import { botSlice } from './bots';
 import { taskSlice } from './tasks';
 import { chatSlice } from './chats';
 import { systemSlice } from './system';
+import { proxySlice } from './proxies';
+import { maFileSlice } from './maFiles';
 
 /**
  * All slice reducers ready to be mounted in the store
@@ -50,7 +67,9 @@ export const sliceReducers = {
   bots: botSlice.reducer,
   tasks: taskSlice.reducer,
   chats: chatSlice.reducer,
-  systems: systemSlice.reducer // Note: 'systems' plural even though it's singleton
+  systems: systemSlice.reducer, // Note: 'systems' plural even though it's singleton
+  proxies: proxySlice.reducer,
+  maFiles: maFileSlice.reducer
 } as const;
 
 /**
@@ -60,7 +79,9 @@ export const sliceActions = {
   bots: botSlice.actions,
   tasks: taskSlice.actions,
   chats: chatSlice.actions,
-  systems: systemSlice.actions
+  systems: systemSlice.actions,
+  proxies: proxySlice.actions,
+  maFiles: maFileSlice.actions
 } as const;
 
 /**
@@ -89,6 +110,16 @@ export const sliceSelectors = {
     // Helper selector for the singleton system entity
     selectSystem: (state: ReturnType<typeof systemSlice.reducer>) => 
       systemSlice.selectEntity(state, 'system')
+  },
+  proxies: {
+    selectEntity: proxySlice.selectEntity,
+    selectAllEntities: proxySlice.selectAllEntities,
+    selectEntityIds: proxySlice.selectEntityIds
+  },
+  maFiles: {
+    selectEntity: maFileSlice.selectEntity,
+    selectAllEntities: maFileSlice.selectAllEntities,
+    selectEntityIds: maFileSlice.selectEntityIds
   }
 } as const;
 
@@ -99,4 +130,6 @@ export type RootState = {
   tasks: ReturnType<typeof taskSlice.reducer>;
   chats: ReturnType<typeof chatSlice.reducer>;
   systems: ReturnType<typeof systemSlice.reducer>;
+  proxies: ReturnType<typeof proxySlice.reducer>;
+  maFiles: ReturnType<typeof maFileSlice.reducer>;
 };

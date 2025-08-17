@@ -6,10 +6,15 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@steam-bot/isomorphic": ["../isomorphic/src/index.ts"],
+      "@steam-bot/isomorphic/*": ["../isomorphic/src/*"]
+    },
     "plugins": [
       { "name": "@effect/language-service" }
     ]
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "../isomorphic/src/**/*"]
 }
 

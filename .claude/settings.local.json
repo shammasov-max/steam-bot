@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc:*)",
+      "Bash(mkdir:*)",
+      "Bash(yarn install)",
+      "Bash(yarn build)",
+      "Bash(yarn test)",
+      "Bash(yarn add:*)",
+      "Bash(yarn test:*)",
+      "Bash(yarn remove:*)",
+      "Bash(timeout:*)",
+      "Bash(yarn typecheck)",
+      "Bash(tsx:*)",
+      "Bash(npx tsx:*)"
+    ],
+    "deny": []
+  }
+}

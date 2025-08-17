@@ -67,8 +67,8 @@ The **global event registry** mapping `kind` → `effect/Schema` for `payload`.
 Included (MVP + headroom for growth):
 
 * System: `"snapshot"` (first SSE message only).
-* Bots: `"bot.connected"`, `"bot.disconnected"`, `"bot.authFailed"`.
-* Tasks: `"task.created"`, `"task.assigned"`, `"task.statusChanged"`.
+* Bots: `"bot.connected"`, `"bot.disconnected"`, `"bot.authenticationFailed"`.
+* Tasks: `"task.created"`, `"task.assigned"`, `"task.statusUpdated"`.
 * Friend invites: `"friendInvite.sent"`, `"friendInvite.accepted"`, `"friendInvite.failed"`.
 * Chats: `"chat.started"`, `"chat.messageReceived"`, `"chat.messageSent"`, `"chat.agentToggled"`.
 * Dialog script: `"dialogScript.advanced"`, `"dialogScript.completed"`.
@@ -284,7 +284,7 @@ builder.addCase(chatTyping.type as any, (state, action: any) => {
 
 * Add **replay buffer + watermark** to SSE for lossless reconnects.
 * Introduce **idempotent commands** (e.g., `commandId`) and optimistic concurrency.
-* Extract domain status enums into schemas and switch `task.statusChanged` to literal unions.
+* Extract domain status enums into schemas and switch `task.statusUpdated` to literal unions.
 * Serve initial **snapshot** via `GET /snapshot` (gzip + ETag) and keep SSE for events only.
 
 ---

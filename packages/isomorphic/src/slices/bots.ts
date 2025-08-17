@@ -49,8 +49,8 @@ export const botSlice = createEntitySlice({
       bot.lastSeen = payload.ts;
     },
     
-    // Event: bot.authFailed
-    authFailed: (bot: Draft<Bot>, payload: EntityActionPayload<'bot', { reason?: string }>) => {
+    // Event: bot.authenticationFailed
+    authenticationFailed: (bot: Draft<Bot>, payload: EntityActionPayload<'bot', { reason?: string }>) => {
       bot.status = 'authFailed';
       // Note: reason is available in payload but not stored in entity per spec
     }
