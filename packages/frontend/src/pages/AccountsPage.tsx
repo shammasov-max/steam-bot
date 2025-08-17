@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Account } from '../types'
 import SearchBox from '../components/UI/SearchBox'
+import ViewSwitcher, { ViewType } from '../components/UI/ViewSwitcher'
+import AccountsTable from '../components/Tables/AccountsTable'
 import { Users, UserPlus, Upload, Download, Trash2, Play, Square, RefreshCw, Filter } from 'lucide-react'
 
 interface AccountsPageProps {
@@ -11,6 +13,7 @@ const AccountsPage: React.FC<AccountsPageProps> = ({ accounts }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<'all' | 'online' | 'offline' | 'idle' | 'busy'>('all')
   const [selectedAccounts, setSelectedAccounts] = useState<string[]>([])
+  const [currentView, setCurrentView] = useState<ViewType>('list')
 
   const filteredAccounts = accounts.filter(account => {
     const matchesSearch = account.username.toLowerCase().includes(searchTerm.toLowerCase())
@@ -63,28 +66,35 @@ const AccountsPage: React.FC<AccountsPageProps> = ({ accounts }) => {
         </div>
       </div>
 
-      <div className="flex items-center space-x-4">
-        <SearchBox
-          value={searchTerm}
-          onChange={setSearchTerm}
-          placeholder="Search accounts by username..."
-          className="flex-1"
-        />
-        
-        <div className="flex items-center space-x-2">
-          <Filter size={16} className="text-gray-400" />
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as any)}
-            className="input-field"
-          >
-            <option value="all">All Status</option>
-            <option value="online">Online</option>
-            <option value="idle">Idle</option>
-            <option value="busy">Busy</option>
-            <option value="offline">Offline</option>
-          </select>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4 flex-1">
+          <SearchBox
+            value={searchTerm}
+            onChange={setSearchTerm}
+            placeholder="Search accounts by username..."
+            className="flex-1 max-w-md"
+          />
+
+          <div className="flex items-center space-x-2">
+            <Filter size={16} className="text-gray-400" />
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as any)}
+              className="input-field"
+            >
+              <option value="all">All Status</option>
+              <option value="online">Online</option>
+              <option value="idle">Idle</option>
+              <option value="busy">Busy</option>
+              <option value="offline">Offline</option>
+            </select>
+          </div>
         </div>
+
+        <ViewSwitcher
+          currentView={currentView}
+          onViewChange={setCurrentView}
+        />
       </div>
 
       <div className="flex items-center justify-between">
@@ -143,70 +153,78 @@ const AccountsPage: React.FC<AccountsPageProps> = ({ accounts }) => {
         </div>
       )}
 
-      <div className="grid gap-4">
-        {filteredAccounts.map((account) => (
-          <div
-            key={account.id}
-            className={`
-              p-4 rounded-lg border cursor-pointer transition-all
-              ${selectedAccounts.includes(account.id)
-                ? 'border-steam-green bg-steam-green/10'
-                : 'border-steam-lightblue hover:border-steam-green/50 bg-steam-lightblue/20'
-              }
-            `}
-            onClick={() => toggleAccount(account.id)}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <input
-                  type="checkbox"
-                  checked={selectedAccounts.includes(account.id)}
-                  onChange={() => toggleAccount(account.id)}
-                  className="w-4 h-4 text-steam-green bg-steam-blue border-steam-lightblue rounded focus:ring-steam-green"
-                />
-                
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-steam-lightblue rounded-full flex items-center justify-center">
-                    <Users size={20} className="text-gray-300" />
-                  </div>
-                  
-                  <div>
-                    <div className="font-medium text-white">{account.username}</div>
-                    <div className="flex items-center space-x-2 text-sm">
-                      <div className={`w-2 h-2 rounded-full ${getStatusDot(account.status)}`}></div>
-                      <span className={getStatusColor(account.status)}>
-                        {account.status.charAt(0).toUpperCase() + account.status.slice(1)}
-                      </span>
-                      {account.isLoggedIn && (
-                        <span className="text-green-400">• Logged In</span>
-                      )}
+      {currentView === 'list' ? (
+        <div className="grid gap-4">
+          {filteredAccounts.map((account) => (
+            <div
+              key={account.id}
+              className={`
+                p-4 rounded-lg border cursor-pointer transition-all
+                ${selectedAccounts.includes(account.id)
+                  ? 'border-steam-green bg-steam-green/10'
+                  : 'border-steam-lightblue hover:border-steam-green/50 bg-steam-lightblue/20'
+                }
+              `}
+              onClick={() => toggleAccount(account.id)}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <input
+                    type="checkbox"
+                    checked={selectedAccounts.includes(account.id)}
+                    onChange={() => toggleAccount(account.id)}
+                    className="w-4 h-4 text-steam-green bg-steam-blue border-steam-lightblue rounded focus:ring-steam-green"
+                  />
+
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-steam-lightblue rounded-full flex items-center justify-center">
+                      <Users size={20} className="text-gray-300" />
+                    </div>
+
+                    <div>
+                      <div className="font-medium text-white">{account.username}</div>
+                      <div className="flex items-center space-x-2 text-sm">
+                        <div className={`w-2 h-2 rounded-full ${getStatusDot(account.status)}`}></div>
+                        <span className={getStatusColor(account.status)}>
+                          {account.status.charAt(0).toUpperCase() + account.status.slice(1)}
+                        </span>
+                        {account.isLoggedIn && (
+                          <span className="text-green-400">• Logged In</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                {account.lastActivity && (
-                  <span className="text-xs text-gray-400">
-                    Last: {account.lastActivity.toLocaleTimeString()}
-                  </span>
-                )}
-                <div className="flex space-x-1">
-                  <button className="p-1 text-gray-400 hover:text-green-400">
-                    <Play size={14} />
-                  </button>
-                  <button className="p-1 text-gray-400 hover:text-yellow-400">
-                    <Square size={14} />
-                  </button>
-                  <button className="p-1 text-gray-400 hover:text-red-400">
-                    <Trash2 size={14} />
-                  </button>
+
+                <div className="flex items-center space-x-2">
+                  {account.lastActivity && (
+                    <span className="text-xs text-gray-400">
+                      Last: {account.lastActivity.toLocaleTimeString()}
+                    </span>
+                  )}
+                  <div className="flex space-x-1">
+                    <button className="p-1 text-gray-400 hover:text-green-400">
+                      <Play size={14} />
+                    </button>
+                    <button className="p-1 text-gray-400 hover:text-yellow-400">
+                      <Square size={14} />
+                    </button>
+                    <button className="p-1 text-gray-400 hover:text-red-400">
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <AccountsTable
+          accounts={filteredAccounts}
+          selectedAccounts={selectedAccounts}
+          onSelectionChange={setSelectedAccounts}
+        />
+      )}
 
       {filteredAccounts.length === 0 && searchTerm && (
         <div className="text-center py-12 text-gray-400">
