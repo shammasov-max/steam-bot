@@ -387,7 +387,6 @@ const ProxyPage: React.FC = () => {
           rowMultiSelectWithClick={true}
           suppressMovableColumns={false}
           enableCellTextSelection={true}
-          enableRangeSelection={true}
           pagination={true}
           paginationPageSize={20}
           headerHeight={40}
