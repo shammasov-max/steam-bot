@@ -228,8 +228,7 @@ const ProxyPage: React.FC = () => {
       sortable: false,
       filter: false,
       width: 120,
-      cellRenderer: ActionsRenderer,
-      pinned: 'right'
+      cellRenderer: ActionsRenderer
     }
   ], [])
 
