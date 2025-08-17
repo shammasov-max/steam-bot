@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Friend } from '../types'
 import SearchBox from '../components/UI/SearchBox'
+import ViewSwitcher, { ViewType } from '../components/UI/ViewSwitcher'
+import FriendsTable from '../components/Tables/FriendsTable'
 import { Users, MessageCircle, UserPlus, Filter } from 'lucide-react'
 
 interface FriendsPageProps {
@@ -10,6 +12,7 @@ interface FriendsPageProps {
 const FriendsPage: React.FC<FriendsPageProps> = ({ friends }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<'all' | 'online' | 'offline' | 'away' | 'busy'>('all')
+  const [currentView, setCurrentView] = useState<ViewType>('list')
 
   const filteredFriends = friends.filter(friend => {
     const matchesSearch = friend.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -107,28 +110,35 @@ const FriendsPage: React.FC<FriendsPageProps> = ({ friends }) => {
         </div>
       </div>
 
-      <div className="flex items-center space-x-4">
-        <SearchBox
-          value={searchTerm}
-          onChange={setSearchTerm}
-          placeholder="Search friends by name or Steam ID..."
-          className="flex-1"
-        />
-        
-        <div className="flex items-center space-x-2">
-          <Filter size={16} className="text-gray-400" />
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as any)}
-            className="input-field"
-          >
-            <option value="all">All Status</option>
-            <option value="online">Online</option>
-            <option value="away">Away</option>
-            <option value="busy">Busy</option>
-            <option value="offline">Offline</option>
-          </select>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4 flex-1">
+          <SearchBox
+            value={searchTerm}
+            onChange={setSearchTerm}
+            placeholder="Search friends by name or Steam ID..."
+            className="flex-1 max-w-md"
+          />
+
+          <div className="flex items-center space-x-2">
+            <Filter size={16} className="text-gray-400" />
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as any)}
+              className="input-field"
+            >
+              <option value="all">All Status</option>
+              <option value="online">Online</option>
+              <option value="away">Away</option>
+              <option value="busy">Busy</option>
+              <option value="offline">Offline</option>
+            </select>
+          </div>
         </div>
+
+        <ViewSwitcher
+          currentView={currentView}
+          onViewChange={setCurrentView}
+        />
       </div>
 
       <div className="flex items-center space-x-4">
@@ -142,58 +152,62 @@ const FriendsPage: React.FC<FriendsPageProps> = ({ friends }) => {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredMockFriends.map((friend) => (
-          <div
-            key={friend.id}
-            className="p-4 rounded-lg border border-steam-lightblue bg-steam-lightblue/20 hover:border-steam-green/50 transition-all"
-          >
-            <div className="flex items-start space-x-3">
-              <div className="w-12 h-12 bg-steam-lightblue rounded-full flex items-center justify-center shrink-0">
-                <Users size={24} className="text-gray-300" />
-              </div>
-              
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-1">
-                  <h3 className="font-medium text-white truncate">{friend.name}</h3>
-                  <div className="flex items-center space-x-1">
-                    <div className={`w-2 h-2 rounded-full ${getStatusDot(friend.status)}`}></div>
-                    <span className={`text-xs ${getStatusColor(friend.status)}`}>
-                      {friend.status}
-                    </span>
-                  </div>
+      {currentView === 'list' ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredMockFriends.map((friend) => (
+            <div
+              key={friend.id}
+              className="p-4 rounded-lg border border-steam-lightblue bg-steam-lightblue/20 hover:border-steam-green/50 transition-all"
+            >
+              <div className="flex items-start space-x-3">
+                <div className="w-12 h-12 bg-steam-lightblue rounded-full flex items-center justify-center shrink-0">
+                  <Users size={24} className="text-gray-300" />
                 </div>
-                
-                <div className="text-xs text-gray-400 mb-2 font-mono">
-                  {friend.steamId}
-                </div>
-                
-                {friend.lastMessage && (
-                  <div className="text-sm text-gray-300 mb-2 bg-steam-blue/50 p-2 rounded">
-                    <div className="text-xs text-gray-400 mb-1">Last message:</div>
-                    <div className="truncate">"{friend.lastMessage}"</div>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="font-medium text-white truncate">{friend.name}</h3>
+                    <div className="flex items-center space-x-1">
+                      <div className={`w-2 h-2 rounded-full ${getStatusDot(friend.status)}`}></div>
+                      <span className={`text-xs ${getStatusColor(friend.status)}`}>
+                        {friend.status}
+                      </span>
+                    </div>
                   </div>
-                )}
-                
-                {friend.lastSeen && (
-                  <div className="text-xs text-gray-400 mb-3">
-                    Last seen: {friend.lastSeen.toLocaleString()}
+
+                  <div className="text-xs text-gray-400 mb-2 font-mono">
+                    {friend.steamId}
                   </div>
-                )}
-                
-                <div className="flex space-x-2">
-                  <button className="flex-1 px-3 py-1 bg-steam-green hover:bg-steam-green/80 rounded text-sm font-medium transition-colors">
-                    Message
-                  </button>
-                  <button className="px-3 py-1 bg-steam-lightblue hover:bg-steam-lightblue/80 rounded text-sm font-medium transition-colors">
-                    Profile
-                  </button>
+
+                  {friend.lastMessage && (
+                    <div className="text-sm text-gray-300 mb-2 bg-steam-blue/50 p-2 rounded">
+                      <div className="text-xs text-gray-400 mb-1">Last message:</div>
+                      <div className="truncate">"{friend.lastMessage}"</div>
+                    </div>
+                  )}
+
+                  {friend.lastSeen && (
+                    <div className="text-xs text-gray-400 mb-3">
+                      Last seen: {friend.lastSeen.toLocaleString()}
+                    </div>
+                  )}
+
+                  <div className="flex space-x-2">
+                    <button className="flex-1 px-3 py-1 bg-steam-green hover:bg-steam-green/80 rounded text-sm font-medium transition-colors">
+                      Message
+                    </button>
+                    <button className="px-3 py-1 bg-steam-lightblue hover:bg-steam-lightblue/80 rounded text-sm font-medium transition-colors">
+                      Profile
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <FriendsTable friends={filteredMockFriends} />
+      )}
 
       {filteredMockFriends.length === 0 && searchTerm && (
         <div className="text-center py-12 text-gray-400">
