@@ -289,10 +289,29 @@ const ProxyPage: React.FC = () => {
   }
 
   const exportData = () => {
-    gridRef.current?.api?.exportDataAsCsv({
-      fileName: 'proxies.csv',
-      columnSeparator: ','
-    })
+    // Custom CSV export since exportDataAsCsv is enterprise-only
+    const headers = ['Host', 'Port', 'Status', 'Username', 'Accounts Count']
+    const rows = filteredProxies.map(proxy => [
+      proxy.host,
+      proxy.port.toString(),
+      proxy.status,
+      proxy.username || 'No auth',
+      proxy.accounts.length.toString()
+    ])
+
+    const csvContent = [headers, ...rows]
+      .map(row => row.map(cell => `"${cell}"`).join(','))
+      .join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    const url = URL.createObjectURL(blob)
+    link.setAttribute('href', url)
+    link.setAttribute('download', 'proxies.csv')
+    link.style.visibility = 'hidden'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   return (
