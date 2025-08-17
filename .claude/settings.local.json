@@ -12,7 +12,15 @@
       "Bash(timeout:*)",
       "Bash(yarn typecheck)",
       "Bash(tsx:*)",
-      "Bash(npx tsx:*)"
+      "Bash(npx tsx:*)",
+      "Bash(yarn lint:*)",
+      "Bash(rm:*)",
+      "Bash(yarn format:check)",
+      "Bash(yarn format:check:*)",
+      "Bash(yarn prettier:*)",
+      "Bash(npx @modelcontextprotocol/cli install @modelcontextprotocol/server-clickhouse)",
+      "Bash(pip install:*)",
+      "Bash(chmod:*)"
     ],
     "deny": []
   }

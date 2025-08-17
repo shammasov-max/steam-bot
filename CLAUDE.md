@@ -121,6 +121,37 @@ Located in `packages/isomorphic/src/slices/`:
 - Maintain round-robin bot assignment for task distribution
 - Agent can be toggled per chat for manual operator takeover
 
+## Code Style Guidelines
+
+### Enforced Rules (ESLint + Prettier)
+- **TypeScript with strict mode** - Full strict compilation enabled
+- **4-space indentation** - No tabs, consistent spacing
+- **No semicolons** - Clean syntax without semicolons
+- **Single quotes** - Use 'single quotes' for strings in TypeScript files
+- **Arrow functions preferred** - Use `const fn = () => {}` over `function fn() {}`
+- **Explicit return types** - All functions must have return type annotations
+
+### Development Commands
+```bash
+# Check code style
+yarn lint
+
+# Fix linting issues
+yarn lint:fix
+
+# Format code
+yarn format
+
+# Check formatting
+yarn format:check
+```
+
+### Configuration Files
+- `eslint.config.js` - ESLint rules and TypeScript integration
+- `prettier.config.cjs` - Code formatting rules
+- `tsconfig.base.json` - TypeScript strict mode configuration
+
 ## Legacy Code
 Skip folders and files which names starts with symbol "_".
 Focus development on the `packages/` workspace structure.
+Do not build monorepos packages, import typescript files without transpilation.
