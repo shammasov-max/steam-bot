@@ -1071,6 +1071,8 @@ __metadata:
     "@types/react": "npm:^18.3.12"
     "@types/react-dom": "npm:^18.3.1"
     "@vitejs/plugin-react": "npm:^4.3.3"
+    ag-grid-community: "npm:^32.2.1"
+    ag-grid-react: "npm:^32.2.1"
     autoprefixer: "npm:^10.4.20"
     lucide-react: "npm:^0.460.0"
     postcss: "npm:^8.4.49"
@@ -1487,6 +1489,35 @@ __metadata:
   version: 0.5.16
   resolution: "adm-zip@npm:0.5.16"
   checksum: 10c0/6f10119d4570c7ba76dcf428abb8d3f69e63f92e51f700a542b43d4c0130373dd2ddfc8f85059f12d4a843703a90c3970cfd17876844b4f3f48bf042bfa6b49f
+  languageName: node
+  linkType: hard
+
+"ag-charts-types@npm:10.3.9":
+  version: 10.3.9
+  resolution: "ag-charts-types@npm:10.3.9"
+  checksum: 10c0/09edd315982e86b73c15a0d33ca852059d07ebe0928b5628ad34cf8d65ff1025f3d8f9f5393304d6ad7dd0780f5759c3f70f45df35a438ef691ff89d0c82bb64
+  languageName: node
+  linkType: hard
+
+"ag-grid-community@npm:32.3.9, ag-grid-community@npm:^32.2.1":
+  version: 32.3.9
+  resolution: "ag-grid-community@npm:32.3.9"
+  dependencies:
+    ag-charts-types: "npm:10.3.9"
+  checksum: 10c0/7b7bd1e6f653296fd4e9db533bbf0632fd1aa5fb517fd0b37d33db770b3d7b0451baae115ee8cb77a5a1b81cb696c61d8b8f8508373e64693a2e1927c109478d
+  languageName: node
+  linkType: hard
+
+"ag-grid-react@npm:^32.2.1":
+  version: 32.3.9
+  resolution: "ag-grid-react@npm:32.3.9"
+  dependencies:
+    ag-grid-community: "npm:32.3.9"
+    prop-types: "npm:^15.8.1"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/356a88358f3986487549283f807d4c6e1230d1223a9acc37ab44700b85a9dc869a4e46c90fb43fe63b23ed2b8cca679ba5f8d8f207322057edf52c6f77b9099f
   languageName: node
   linkType: hard
 
@@ -3663,7 +3694,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.1.0":
+"loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -4149,7 +4180,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object-assign@npm:^4.0.1":
+"object-assign@npm:^4.0.1, object-assign@npm:^4.1.1":
   version: 4.1.1
   resolution: "object-assign@npm:4.1.1"
   checksum: 10c0/1f4df9945120325d041ccf7b86f31e8bcc14e73d29171e37a7903050e96b81323784ec59f93f102ec635bcf6fa8034ba3ea0a8c7e69fa202b87ae3b6cec5a414
@@ -4473,6 +4504,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prop-types@npm:^15.8.1":
+  version: 15.8.1
+  resolution: "prop-types@npm:15.8.1"
+  dependencies:
+    loose-envify: "npm:^1.4.0"
+    object-assign: "npm:^4.1.1"
+    react-is: "npm:^16.13.1"
+  checksum: 10c0/59ece7ca2fb9838031d73a48d4becb9a7cc1ed10e610517c7d8f19a1e02fa47f7c27d557d8a5702bec3cfeccddc853579832b43f449e54635803f277b1c78077
+  languageName: node
+  linkType: hard
+
 "protobufjs@npm:^5.0.2":
   version: 5.0.3
   resolution: "protobufjs@npm:5.0.3"
@@ -4603,6 +4645,13 @@ __metadata:
   peerDependencies:
     react: ^18.3.1
   checksum: 10c0/a752496c1941f958f2e8ac56239172296fcddce1365ce45222d04a1947e0cc5547df3e8447f855a81d6d39f008d7c32eab43db3712077f09e3f67c4874973e85
+  languageName: node
+  linkType: hard
+
+"react-is@npm:^16.13.1":
+  version: 16.13.1
+  resolution: "react-is@npm:16.13.1"
+  checksum: 10c0/33977da7a5f1a287936a0c85639fec6ca74f4f15ef1e59a6bc20338fc73dc69555381e211f7a3529b8150a1f71e4225525b41b60b52965bda53ce7d47377ada1
   languageName: node
   linkType: hard
 
