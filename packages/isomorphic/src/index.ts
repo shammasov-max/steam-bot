@@ -21,7 +21,7 @@ export { sliceReducers, sliceActions, sliceSelectors, type RootState } from './s
 
 // ============= Events =============
 export * from './events/actions.js';
-export * from './events/factory.js';
+export * from './events/event-builder.js';
 export * from './events/meta.js';
 export * from './events/payloads.js';
 

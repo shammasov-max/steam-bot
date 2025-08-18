@@ -2,7 +2,6 @@
 export { 
   botSlice, 
   type Bot, 
-  type BotStatus, 
   BotSchema 
 } from './bots';
 
@@ -10,9 +9,18 @@ export {
 export { 
   taskSlice, 
   type Task, 
-  type TaskStatus, 
   TaskSchema 
 } from './tasks';
+
+// ============= Core Types =============
+export { 
+  type BotStatus, 
+  type TaskStatus,
+  BotId,
+  TaskId,
+  ChatId,
+  SteamID64 
+} from '../events/core';
 
 // ============= Chats Slice =============
 export { 

@@ -1,4 +1,4 @@
-# CLAUDE.md
+a# CLAUDE.md
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Role: 
@@ -80,10 +80,11 @@ yarn test:isomorphic
 
 ### Event System (Isomorphic Package)
 - All events are Redux actions with `{ type, payload, meta }` shape
-- Event schemas defined in `packages/isomorphic/src/events/payloads.ts`
+- Event builder in `packages/isomorphic/src/events/event-builder.ts`
+- Event schemas defined per slice using Effect Schema
 - Event creators in `packages/isomorphic/src/events/actions.ts`
 - Uses Effect Schema for validation at boundaries
-- Meta includes: `schemaVersion`, `id`, `ts`, `aggregate`, `kind`
+- Simplified meta structure for flexibility
 
 ### Entity Slices
 Located in `packages/isomorphic/src/slices/`:

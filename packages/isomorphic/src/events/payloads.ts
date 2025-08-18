@@ -1,56 +1,35 @@
-import * as S from "effect/Schema";
-import { BotId, ChatId, TaskId, ProxyId, MaFileId, SteamID64, TaskStatus } from "./core";
+// Central registry of all event schemas from domain slices
+import { botEventSchemas } from '../slices/bots'
+import { taskEventSchemas } from '../slices/tasks'
+import { chatEventSchemas } from '../slices/chats'
+import { systemEventSchemas } from '../slices/system'
+import * as S from 'effect/Schema'
 
-// Full registry of payload schemas (MVP + growth)
+// Combine all domain schemas into one registry
 export const PayloadSchemas = {
-  // Snapshot — only for the first SSE message
-  "snapshot": S.Struct({ state: S.Unknown }),
+    ...botEventSchemas,
+    ...taskEventSchemas, 
+    ...chatEventSchemas,
+    ...systemEventSchemas,
+} as const
 
-  // Bots
-  "bot.connected":     S.Struct({ botId: BotId }),
-  "bot.disconnected":  S.Struct({ botId: BotId }),
-  "bot.authenticationFailed":    S.Struct({ botId: BotId, reason: S.String }),
+// Type utilities for working with events
+export type EventKind = keyof typeof PayloadSchemas
+export type PayloadOf<K extends EventKind> = S.Schema.Type<(typeof PayloadSchemas)[K]>
 
-  // Tasks
-  "task.created": S.Struct({
-    taskId: TaskId,
-    playerSteamId64: SteamID64,
-    item: S.String,
-    priceMin: S.Number,
-    priceMax: S.Number
-  }),
-  "task.assigned":      S.Struct({ taskId: TaskId, botId: BotId }),
-  "task.statusUpdated": S.Struct({ taskId: TaskId, status: TaskStatus }),
+// Global event payload types
+export type EventPayloads = {
+    [K in EventKind]: PayloadOf<K>
+}
 
-  // Invites
-  "friendInvite.sent":     S.Struct({ botId: BotId, playerSteamId64: SteamID64 }),
-  "friendInvite.accepted": S.Struct({ botId: BotId, playerSteamId64: SteamID64 }),
-  "friendInvite.failed":   S.Struct({ botId: BotId, playerSteamId64: SteamID64, reason: S.String }),
-
-  // Chats
-  "chat.started":          S.Struct({ chatId: ChatId, botId: BotId, playerSteamId64: SteamID64 }),
-  "chat.messageReceived":  S.Struct({ chatId: ChatId, from: S.Union(S.Literal("player"), S.Literal("bot")), text: S.String }),
-  "chat.messageSent":      S.Struct({ chatId: ChatId, text: S.String }),
-  "chat.agentToggled":     S.Struct({ chatId: ChatId, enabled: S.Boolean }),
-
-  // Dialog script
-  "dialogScript.advanced":  S.Struct({ chatId: ChatId, step: S.Number }),
-  "dialogScript.completed": S.Struct({ chatId: ChatId }),
-
-  // Logs
-  "error.logged": S.Struct({ message: S.String, context: S.optional(S.Unknown) }),
-
-  // Proxies
-  "proxy.assigned":  S.Struct({ proxyId: ProxyId, botId: BotId }),
-  "proxy.released":  S.Struct({ proxyId: ProxyId }),
-  "proxy.failed":    S.Struct({ proxyId: ProxyId, reason: S.optional(S.String) }),
-  "proxy.banned":    S.Struct({ proxyId: ProxyId, reason: S.optional(S.String) }),
-  "proxy.restored":  S.Struct({ proxyId: ProxyId }),
-
-  // MaFiles  
-  "maFile.assigned": S.Struct({ maFileId: MaFileId, botId: BotId }),
-  "maFile.released": S.Struct({ maFileId: MaFileId })
-} as const;
-
-export type EventKind = keyof typeof PayloadSchemas;
-export type PayloadOf<K extends EventKind> = S.Schema.Type<(typeof PayloadSchemas)[K]>;
+// Validate any event at runtime
+export function validateEventPayload(
+    type: EventKind,
+    payload: unknown
+): any {
+    const schema = PayloadSchemas[type as keyof typeof PayloadSchemas]
+    if (!schema) {
+        throw new Error(`Unknown event type: ${type}`)
+    }
+    return S.decodeUnknownSync(schema as any)(payload)
+}

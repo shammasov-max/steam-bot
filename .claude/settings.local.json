@@ -20,7 +20,10 @@
       "Bash(yarn prettier:*)",
       "Bash(npx @modelcontextprotocol/cli install @modelcontextprotocol/server-clickhouse)",
       "Bash(pip install:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "Bash(claude-monitor:*)",
+      "Bash(./get-tokens.sh:*)"
     ],
     "deny": []
   }

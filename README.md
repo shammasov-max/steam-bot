@@ -1,10 +1,34 @@
-# steam-bot
-### 
-MAIN festures and design Document [RDP.md](./RDP.md)
+# Steam Bot - Multichat Automation System
 
-The source code
+Main features and design document: [RDP.md](./RDP.md)
 
-## Package Documentation
+## Overview
+A Steam multichat automation system built as a TypeScript monorepo using Yarn workspaces. Automates conversations between Steam bot accounts and real players through a web-based operations console.
 
-- [Frontend Package](./packages/frontend/frontend.md) - React TypeScript frontend with Steam-themed UI components
-- [Isomorphic Events Package](./packages/isomorphic/src/ReadME.md) - Shared domain events between backend and frontend
+## Package Structure
+
+- **[Frontend Package](./packages/frontend)** - React SPA with Steam-themed UI components
+- **[Server Package](./packages/server)** - Node.js backend with Effect-TS
+- **[Isomorphic Package](./packages/isomorphic)** - Shared event definitions and Redux state
+- **[Steam Agent Package](./packages/steam-agent)** - Effect-TS based Steam utilities
+
+## Quick Start
+
+```bash
+# Install dependencies
+yarn install
+
+# Start development server
+yarn dev
+
+# Run tests
+yarn test
+
+# Type check
+yarn typecheck
+```
+
+## Documentation
+
+- [Architecture Guide](./CLAUDE.md) - Development guidelines and architecture details
+- [Requirements Document](./RDP.md) - Full product requirements and specifications
